@@ -48,12 +48,13 @@
 
 /* Card */
 .admin-card {
-  flex: 1; background: #c9b9a8; border-radius: 10px;
+  flex: 1; background: #ab9680; border-radius: 10px;
   padding: 18px 18px 14px; display: flex; flex-direction: column; overflow: hidden;
 }
 
 /* Toolbar */
-.admin-toolbar { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 16px; flex-shrink: 0; }
+.admin-toolbar { display: flex; align-items: flex-end; justify-content: flex-start; gap: 12px; margin-bottom: 16px; flex-shrink: 0; }
+.admin-btn-new { margin-left: auto; }
 .admin-toolbar__group { display: flex; flex-direction: column; gap: 3px; }
 .admin-toolbar__group label { font-size: 10px; font-weight: 500; letter-spacing: 0.08em; color: rgba(255,255,255,0.85); }
 .admin-toolbar__group input,
@@ -115,7 +116,7 @@
 /* Dashboard cards */
 .dash-cards { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; flex-shrink: 0; }
 .dash-card {
-  background: #c9b9a8; border-radius: 10px; padding: 20px;
+  background: #ab9680; border-radius: 10px; padding: 20px;
   text-align: center;
 }
 .dash-card--yellow { background: #e8d98a; }
