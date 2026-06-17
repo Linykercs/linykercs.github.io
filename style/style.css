@@ -8,13 +8,14 @@
 :root {
   --bg:          #e8e5e0;
   --bg-light:    #f0ede8;
-  --taupe:       #b5a594;
-  --taupe-dark:  #9a8978;
-  --taupe-light: #cfc0b0;
+  --taupe:       #ab9680;
+  --taupe-dark:  #b98b5d;
+  --taupe-light: #d9d9d9;
   --cream:       #f5f3ef;
-  --text:        #1a1a1a;
+  --text:        #1c1c1c;
   --text-muted:  #6b6157;
   --white:       #ffffff;
+  --dark-brown:  #3f3535;
   --nav-h:       68px;
   --serif:       'Cormorant Garamond', serif;
   --sans:        'Raleway', sans-serif;
@@ -81,7 +82,7 @@ a    { text-decoration: none; color: inherit; }
 .chatbot-btn {
   position: fixed; bottom: 28px; right: 28px; z-index: 999;
   width: 52px; height: 52px; border-radius: 50%;
-  background: var(--taupe); display: flex; align-items: center; justify-content: center;
+  background: #ff9d00; display: flex; align-items: center; justify-content: center;
   box-shadow: 0 4px 20px rgba(0,0,0,0.2); transition: transform 0.2s;
 }
 .chatbot-btn:hover { transform: scale(1.1); }
