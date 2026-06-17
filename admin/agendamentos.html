@@ -50,17 +50,11 @@
             <input type="text" id="filterNome" placeholder="" oninput="filtrarLocal()"/>
           </div>
           <div class="admin-toolbar__group">
-            <label>Status</label>
-            <select id="filterStatus" onchange="carregarAgendamentos()">
-              <option value="">Todos</option>
-              <option value="pendente">Pendente</option>
-              <option value="confirmado">Confirmado</option>
-              <option value="concluido">Concluído</option>
-              <option value="cancelado">Cancelado</option>
-            </select>
+            <label>Data</label>
+            <input type="date" id="filterData" onchange="carregarAgendamentos()"/>
           </div>
           <!-- Botao para abrir modal de criar horarios -->
-          <button class="admin-btn-new" onclick="openModal()">+ Novo horário</button>
+          <button class="admin-btn-new" onclick="openModal()">Novo agendamento</button>
         </div>
         <div class="admin-table-wrap" id="tableWrap">
           <p class="admin-estado">Carregando...</p>
@@ -138,10 +132,10 @@ function renderRows(lista) {
 
 // Carregar lista de agendamentos da API
 async function carregarAgendamentos() {
-  const status = document.getElementById("filterStatus").value;
+  const data = document.getElementById("filterData").value;
   document.getElementById("tableWrap").innerHTML='<p class="admin-estado">Carregando...</p>';
   try {
-    todosAgendamentos = await apiFetch(`/admin/agendamentos${status?`?status=${status}`:""}`);
+    todosAgendamentos = await apiFetch(`/admin/agendamentos${data?`?data=${data}`:""}`);
     filtrarLocal();
   } catch(err) {
     if(err.message.includes("Token")) sair();

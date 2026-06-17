@@ -30,7 +30,7 @@
 
   <div class="admin-main">
     <header class="admin-header">
-      <span class="admin-header__title">Dashboard</span>
+      <span class="admin-header__title">Dashboard agendamentos</span>
       <div class="admin-header__right">
         <span class="admin-header__nome" id="nomeAdmin"></span>
         <div class="admin-header__avatar">
@@ -48,9 +48,9 @@
         <div class="dash-card dash-card--blue"><div class="dash-card__num" id="dHoje">—</div><div class="dash-card__label">Agendados Hoje</div></div>
       </div>
 
-      <!-- Grafico de barras de agendamentos por status -->
+      <!-- Grafico de barras de agendamentos por mes -->
       <div class="admin-card" style="margin-top:20px; padding:28px;">
-        <h3 style="font-family:var(--serif,serif);font-size:18px;font-weight:400;margin-bottom:24px;color:#3a3028">Agendamentos por status</h3>
+        <h3 style="font-family:var(--serif,serif);font-size:18px;font-weight:400;margin-bottom:24px;color:#3a3028">Agendamentos por mês</h3>
         <canvas id="graficoBar" height="120"></canvas>
       </div>
     </div>
@@ -73,7 +73,7 @@ async function apiFetch(path) {
   return data;
 }
 
-// Carregar dados do dashboard e renderizar grafico
+// Carregar dados do dashboard e renderizar grafico mensal
 async function carregarDashboard() {
   try {
     const d = await apiFetch("/admin/dashboard");
@@ -82,19 +82,32 @@ async function carregarDashboard() {
     document.getElementById("dConfirmados").textContent= d.confirmados||0;
     document.getElementById("dHoje").textContent       = d.agendadosHoje||0;
 
+    const meses = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
+    const contagens = new Array(12).fill(0);
+    try {
+      const agendamentos = await apiFetch("/admin/agendamentos");
+      agendamentos.forEach(function(a) {
+        const h = a.horario_id||{};
+        if (h.data) {
+          const mes = new Date(h.data).getMonth();
+          if (mes >= 0 && mes < 12) contagens[mes]++;
+        }
+      });
+    } catch(e) {}
+
     new Chart(document.getElementById("graficoBar"), {
       type: "bar",
       data: {
-        labels: ["Total","Pendentes","Confirmados","Hoje","Contatos s/ resp."],
+        labels: meses,
         datasets: [{
-          data: [d.total||0, d.pendentes||0, d.confirmados||0, d.agendadosHoje||0, d.contatosNaoRespondidos||0],
-          backgroundColor: ["#b5a594","#e8c97a","#85b89a","#8fb3c8","#cc8888"],
+          data: contagens,
+          backgroundColor: "#b5a594",
           borderRadius: 6, borderSkipped: false,
         }]
       },
       options: {
         plugins: { legend: { display:false } },
-        scales: { y: { beginAtZero:true, ticks:{ stepSize:1 } } }
+        scales: { y: { beginAtZero:true, ticks:{ stepSize:1 }, grid:{ color:"rgba(0,0,0,0.05)" } }, x:{ grid:{ display:false } } }
       }
     });
   } catch(err) {
