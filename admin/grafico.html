@@ -52,9 +52,11 @@
       </div>
 
       <!-- Grafico de barras de agendamentos por mes -->
-      <div class="admin-card" style="margin-top:20px; padding:28px; background:#fff;">
-        <h3 style="font-family:var(--serif,serif);font-size:18px;font-weight:400;margin-bottom:24px;color:#1c1c1c">Agendamentos por mês</h3>
-        <canvas id="graficoBar" height="120"></canvas>
+      <div class="admin-card" style="margin-top:20px; padding:28px; background:#fff; display:flex; flex-direction:column;">
+        <h3 style="font-family:var(--serif,serif);font-size:18px;font-weight:400;margin-bottom:24px;color:#1c1c1c;flex-shrink:0">Agendamentos por mês</h3>
+        <div style="flex:1; position:relative; min-height:0;">
+          <canvas id="graficoBar"></canvas>
+        </div>
       </div>
     </div>
   </div>
@@ -116,6 +118,7 @@ async function carregarDashboard() {
         }))
       },
       options: {
+        maintainAspectRatio: false,
         plugins: { legend: { display:true, position:"top", labels:{ boxWidth:12, font:{ size:12 } } } },
         scales: {
           y: { beginAtZero:true, stacked:true, ticks:{ stepSize:1 }, grid:{ color:"rgba(0,0,0,0.05)" } },
