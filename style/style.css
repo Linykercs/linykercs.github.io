@@ -86,7 +86,7 @@ a    { text-decoration: none; color: inherit; }
   box-shadow: 0 4px 20px rgba(0,0,0,0.2); transition: transform 0.2s;
 }
 .chatbot-btn:hover { transform: scale(1.1); }
-.chatbot-btn img { width: 28px; height: 28px; filter: brightness(0) invert(1); }
+.chatbot-btn img { width: 28px; height: 28px; }
 
 /* ── BOTÕES GLOBAIS ── */
 .btn-primary {
