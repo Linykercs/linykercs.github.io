@@ -87,9 +87,7 @@ a.footer-info-item:hover { opacity: 0.75; }
   box-shadow: 0 4px 20px rgba(0,0,0,0.2); transition: transform 0.2s;
 }
 .chatbot-btn:hover { transform: scale(1.1); }
-.chatbot-fl { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 400; line-height: 1; letter-spacing: -1px; }
-.chatbot-fl .fl-f { color: #fff; }
-.chatbot-fl .fl-l { color: #3f3535; }
+.chatbot-logo { width: 32px; height: 32px; filter: brightness(0) invert(1); }
 
 /* ── BOTÕES GLOBAIS ── */
 .btn-primary {
