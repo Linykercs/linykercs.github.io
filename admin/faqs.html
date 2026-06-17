@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>FAQs – Flávia Franco</title>
+<link rel="stylesheet" href="../style/style.css"/>
+<link rel="stylesheet" href="../style/agendamentos.css"/>
+<style>
+.faq-list { display: flex; flex-direction: column; gap: 12px; }
+.faq-item { background: #faf8f6; border: 1px solid #e8e0d8; border-radius: 10px; padding: 16px 18px; }
+.faq-item__header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.faq-item__pergunta { font-weight: 600; font-size: 14px; color: #3a3028; flex: 1; }
+.faq-item__resposta { font-size: 13px; color: #6b5f56; margin-top: 6px; line-height: 1.5; }
+.faq-item__tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+.faq-tag { font-size: 11px; background: #ede8e2; color: #7a6a5e; padding: 2px 7px; border-radius: 20px; }
+.faq-item__btns { display: flex; gap: 6px; flex-shrink: 0; }
+.faq-btn { background: none; border: 1px solid #d4c8be; border-radius: 6px; padding: 5px 7px; cursor: pointer; color: #7a6a5e; display: flex; align-items: center; }
+.faq-btn:hover { background: #f0ebe5; }
+.faq-btn.danger { border-color: #e8b4b4; color: #c0474a; }
+.faq-btn.danger:hover { background: #fdf0f0; }
+.faq-btn svg { width: 14px; height: 14px; }
+.faq-add-btn { background: #ab9680; color: #fff; border: none; border-radius: 8px; padding: 9px 18px; font-size: 13px; font-weight: 600; cursor: pointer; margin-bottom: 16px; }
+.faq-add-btn:hover { background: #9a8571; }
+.faq-modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 200; align-items: center; justify-content: center; }
+.faq-modal-backdrop.open { display: flex; }
+.faq-modal { background: #fff; border-radius: 14px; padding: 28px 24px; width: 480px; max-width: 95vw; box-shadow: 0 8px 32px rgba(0,0,0,0.15); }
+.faq-modal__title { font-size: 15px; font-weight: 700; color: #3a3028; margin-bottom: 18px; }
+.faq-modal label { font-size: 11px; font-weight: 600; letter-spacing: .05em; color: #9a8571; display: block; margin-bottom: 4px; margin-top: 12px; }
+.faq-modal input, .faq-modal textarea, .faq-modal select { width: 100%; border: 1px solid #d4c8be; border-radius: 7px; padding: 8px 10px; font-size: 13px; font-family: inherit; color: #3a3028; background: #faf8f6; }
+.faq-modal textarea { resize: vertical; min-height: 70px; }
+.faq-modal__erro { color: #c0474a; font-size: 12px; margin-top: 10px; display: none; }
+.faq-modal__actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+.faq-modal__btn { border: none; border-radius: 8px; padding: 9px 18px; font-size: 13px; font-weight: 600; cursor: pointer; }
+.faq-modal__btn--cancel { background: #f0ebe5; color: #7a6a5e; }
+.faq-modal__btn--save { background: #ab9680; color: #fff; }
+</style>
+</head>
+<body>
+<div class="admin-app">
+
+  <aside class="admin-sidebar">
+    <div class="admin-sidebar__logo">F|</div>
+    <nav class="admin-sidebar__nav">
+      <a class="admin-nav-item" href="agendamentos.html" title="Agendamentos">
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="3" rx="1"/><rect x="3" y="10.5" width="18" height="3" rx="1"/><rect x="3" y="17" width="18" height="3" rx="1"/></svg>
+      </a>
+      <a class="admin-nav-item" href="grafico.html" title="Dashboard">
+        <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </a>
+      <a class="admin-nav-item active" href="faqs.html" title="FAQs do Chatbot">
+        <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </a>
+      <a class="admin-nav-item" href="../home.html" title="Ver site">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </a>
+      <a class="admin-nav-item" href="#" title="Sair" onclick="sair()">
+        <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      </a>
+    </nav>
+  </aside>
+
+  <div class="admin-main">
+    <header class="admin-header">
+      <span class="admin-header__title">FAQs do Chatbot</span>
+      <div class="admin-header__right">
+        <span class="admin-header__nome" id="nomeAdmin"></span>
+        <div class="admin-header__avatar">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        </div>
+      </div>
+    </header>
+
+    <div class="admin-content">
+      <div class="admin-card">
+        <button class="faq-add-btn" onclick="abrirModal()">+ Nova FAQ</button>
+        <div class="faq-list" id="faqList"><p class="admin-estado">Carregando...</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal criar/editar FAQ -->
+<div class="faq-modal-backdrop" id="faqModal">
+  <div class="faq-modal">
+    <div class="faq-modal__title" id="modalTitulo">Nova FAQ</div>
+    <label>PERGUNTA</label>
+    <input type="text" id="mPergunta" placeholder="Ex: Qual o horário de funcionamento?"/>
+    <label>RESPOSTA</label>
+    <textarea id="mResposta" placeholder="Resposta completa..."></textarea>
+    <label>CATEGORIA</label>
+    <select id="mCategoria">
+      <option value="horarios">Horários</option>
+      <option value="agendamento">Agendamento</option>
+      <option value="servicos">Serviços</option>
+      <option value="localizacao">Localização</option>
+      <option value="outros">Outros</option>
+    </select>
+    <label>PALAVRAS-CHAVE (separadas por vírgula)</label>
+    <input type="text" id="mPalavras" placeholder="horario, funcionamento, aberto"/>
+    <label>ORDEM</label>
+    <input type="number" id="mOrdem" min="1" value="99"/>
+    <p class="faq-modal__erro" id="modalErro"></p>
+    <div class="faq-modal__actions">
+      <button class="faq-modal__btn faq-modal__btn--cancel" onclick="fecharModal()">Cancelar</button>
+      <button class="faq-modal__btn faq-modal__btn--save" id="btnSalvar" onclick="salvarFaq()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const API_URL = "https://clinica-production-3c98.up.railway.app/api";
+if (!localStorage.getItem("token_admin")) window.location.href = "login.html";
+document.getElementById("nomeAdmin").textContent = localStorage.getItem("admin_nome") || "";
+
+let editandoId = null;
+
+async function apiFetch(path, options = {}) {
+  const token = localStorage.getItem("token_admin");
+  const headers = { "Content-Type": "application/json" };
+  if (token) headers["Authorization"] = `Bearer ${token}`;
+  const res  = await fetch(`${API_URL}${path}`, { ...options, headers });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.erro || "Erro");
+  return data;
+}
+
+function esc(str) { const d = document.createElement("div"); d.textContent = str || ""; return d.innerHTML; }
+
+async function carregarFaqs() {
+  const list = document.getElementById("faqList");
+  list.innerHTML = '<p class="admin-estado">Carregando...</p>';
+  try {
+    const faqs = await apiFetch("/admin/faqs");
+    if (!faqs.length) { list.innerHTML = '<p class="admin-estado">Nenhuma FAQ cadastrada.</p>'; return; }
+    list.innerHTML = faqs.map(f => `
+      <div class="faq-item">
+        <div class="faq-item__header">
+          <div style="flex:1">
+            <div class="faq-item__pergunta">${esc(f.pergunta)}</div>
+            <div class="faq-item__resposta">${esc(f.resposta)}</div>
+            <div class="faq-item__tags">${(f.palavras_chave||[]).map(p=>`<span class="faq-tag">${esc(p)}</span>`).join("")}</div>
+          </div>
+          <div class="faq-item__btns">
+            <button class="faq-btn" onclick='editarFaq(${JSON.stringify(f)})' title="Editar">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            </button>
+            <button class="faq-btn danger" onclick="deletarFaq('${esc(f._id)}', '${esc(f.pergunta).replace(/'/g,"\\'")}')\" title="Deletar">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>`).join("");
+  } catch (err) {
+    if (err.message.includes("Token")) sair();
+    else list.innerHTML = '<p class="admin-estado">Erro ao carregar FAQs.</p>';
+  }
+}
+
+function abrirModal(faq = null) {
+  editandoId = faq ? faq._id : null;
+  document.getElementById("modalTitulo").textContent = faq ? "Editar FAQ" : "Nova FAQ";
+  document.getElementById("mPergunta").value  = faq ? faq.pergunta  : "";
+  document.getElementById("mResposta").value  = faq ? faq.resposta  : "";
+  document.getElementById("mCategoria").value = faq ? faq.categoria : "horarios";
+  document.getElementById("mPalavras").value  = faq ? (faq.palavras_chave || []).join(", ") : "";
+  document.getElementById("mOrdem").value     = faq ? faq.ordem : 99;
+  document.getElementById("modalErro").style.display = "none";
+  document.getElementById("faqModal").classList.add("open");
+}
+
+function editarFaq(faq) { abrirModal(faq); }
+function fecharModal() { document.getElementById("faqModal").classList.remove("open"); }
+
+async function salvarFaq() {
+  const pergunta     = document.getElementById("mPergunta").value.trim();
+  const resposta     = document.getElementById("mResposta").value.trim();
+  const categoria    = document.getElementById("mCategoria").value;
+  const palavras_chave = document.getElementById("mPalavras").value.split(",").map(s => s.trim()).filter(Boolean);
+  const ordem        = parseInt(document.getElementById("mOrdem").value) || 99;
+  const erro         = document.getElementById("modalErro");
+  const btn          = document.getElementById("btnSalvar");
+
+  if (!pergunta || !resposta) { erro.textContent = "Pergunta e resposta são obrigatórias."; erro.style.display = "block"; return; }
+
+  btn.disabled = true; btn.textContent = "Salvando..."; erro.style.display = "none";
+  try {
+    if (editandoId) {
+      await apiFetch(`/admin/faqs/${editandoId}`, { method: "PATCH", body: JSON.stringify({ pergunta, resposta, palavras_chave, categoria, ordem }) });
+    } else {
+      await apiFetch("/admin/faqs/seed", { method: "POST", body: JSON.stringify({ faqs: [{ pergunta, resposta, palavras_chave, categoria, ordem }] }) });
+    }
+    fecharModal();
+    await carregarFaqs();
+  } catch (err) {
+    erro.textContent = err.message; erro.style.display = "block";
+  } finally {
+    btn.disabled = false; btn.textContent = "Salvar";
+  }
+}
+
+async function deletarFaq(id, pergunta) {
+  if (!confirm(`Deletar a FAQ:\n"${pergunta}"?`)) return;
+  try { await apiFetch(`/admin/faqs/${id}`, { method: "DELETE" }); await carregarFaqs(); }
+  catch (err) { alert("Erro: " + err.message); }
+}
+
+function sair() { localStorage.removeItem("token_admin"); localStorage.removeItem("admin_nome"); window.location.href = "login.html"; }
+document.getElementById("faqModal").addEventListener("click", function(e) { if (e.target === this) fecharModal(); });
+carregarFaqs();
+</script>
+</body>
+</html>
