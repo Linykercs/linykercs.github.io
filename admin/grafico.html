@@ -86,14 +86,20 @@ async function carregarDashboard() {
     document.getElementById("dHoje").textContent       = d.agendadosHoje||0;
 
     const meses = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
-    const contagens = new Array(12).fill(0);
+    const statusKeys   = ["pendente","confirmado","concluido","cancelado"];
+    const statusCores  = { pendente:"#e8d98a", confirmado:"#a5c8b0", concluido:"#ab9680", cancelado:"#e8a5a5" };
+    const statusRotulo = { pendente:"Pendente", confirmado:"Confirmado", concluido:"Concluído", cancelado:"Cancelado" };
+    const counts = {};
+    statusKeys.forEach(s => { counts[s] = new Array(12).fill(0); });
+
     try {
       const agendamentos = await apiFetch("/admin/agendamentos");
       agendamentos.forEach(function(a) {
         const h = a.horario_id||{};
         if (h.data) {
-          const mes = new Date(h.data).getMonth();
-          if (mes >= 0 && mes < 12) contagens[mes]++;
+          const mes    = new Date(h.data).getMonth();
+          const status = a.status||"pendente";
+          if (mes >= 0 && mes < 12 && counts[status]) counts[status][mes]++;
         }
       });
     } catch(e) {}
@@ -102,15 +108,19 @@ async function carregarDashboard() {
       type: "bar",
       data: {
         labels: meses,
-        datasets: [{
-          data: contagens,
-          backgroundColor: "#ab9680",
-          borderRadius: 6, borderSkipped: false,
-        }]
+        datasets: statusKeys.map(s => ({
+          label: statusRotulo[s],
+          data: counts[s],
+          backgroundColor: statusCores[s],
+          borderRadius: 4, borderSkipped: false,
+        }))
       },
       options: {
-        plugins: { legend: { display:false } },
-        scales: { y: { beginAtZero:true, ticks:{ stepSize:1 }, grid:{ color:"rgba(0,0,0,0.05)" } }, x:{ grid:{ display:false } } }
+        plugins: { legend: { display:true, position:"top", labels:{ boxWidth:12, font:{ size:12 } } } },
+        scales: {
+          y: { beginAtZero:true, stacked:true, ticks:{ stepSize:1 }, grid:{ color:"rgba(0,0,0,0.05)" } },
+          x: { stacked:true, grid:{ display:false } }
+        }
       }
     });
   } catch(err) {
