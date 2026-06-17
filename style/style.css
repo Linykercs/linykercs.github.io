@@ -39,7 +39,7 @@ a    { text-decoration: none; color: inherit; }
   max-width: 1100px; margin: 0 auto; padding: 0 32px;
   height: 100%; display: flex; align-items: center; justify-content: space-between;
 }
-.nav-logo img { height: 44px; width: auto; filter: brightness(0) invert(1); }
+.nav-logo img { height: 44px; width: auto; filter: brightness(0); }
 .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
 .nav-links a { font-size: 13px; font-weight: 400; letter-spacing: 0.02em; color: var(--text); transition: color 0.2s; }
 .nav-links a:hover, .nav-links a.active { color: var(--taupe-dark); }
