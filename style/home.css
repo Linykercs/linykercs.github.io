@@ -64,7 +64,7 @@
   min-height: 400px;
 }
 .cta-overlay {
-  background: rgba(171,150,128,0.88);
+  background: rgba(171,150,128,0.88); /* #ab9680 */
   min-height: 400px; display: flex;
   align-items: center; justify-content: center;
   gap: 60px; padding: 80px 32px;

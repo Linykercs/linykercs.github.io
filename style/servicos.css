@@ -44,7 +44,7 @@
 }
 .servico-card-item:hover {
   transform: translateY(-5px);
-  box-shadow: 0 12px 28px rgba(181,165,148,0.22);
+  box-shadow: 0 12px 28px rgba(171,150,128,0.22);
   border-top-color: var(--taupe);
 }
 .servico-card-item h4 {
