@@ -42,8 +42,16 @@
         <button onclick="enviarMsg()">&#x27A4;</button>
       </div>
     </div>
-    <button class="chatbot-btn-fab" onclick="toggleChat()">
-      <img src="${base}img/logo.svg" alt="Chat"/>
+    <button class="chatbot-btn-fab" onclick="toggleChat()" title="Assistente Virtual">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="8" width="18" height="12" rx="3"/>
+        <path d="M8 8V6a4 4 0 0 1 8 0v2"/>
+        <circle cx="9" cy="14" r="1.2" fill="#fff" stroke="none"/>
+        <circle cx="15" cy="14" r="1.2" fill="#fff" stroke="none"/>
+        <path d="M9 17.5c.8.7 2 1 3 1s2.2-.3 3-1"/>
+        <line x1="12" y1="3" x2="12" y2="5"/>
+        <circle cx="12" cy="2.5" r="0.7" fill="#fff" stroke="none"/>
+      </svg>
     </button>`;
   document.body.appendChild(widget);
 
