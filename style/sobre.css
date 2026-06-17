@@ -1,0 +1,86 @@
+/* ============================================================
+   sobre.css — Página Quem Somos
+   ============================================================ */
+
+/* ── HERO FOTO EQUIPE ── */
+.sobre-hero { width: 100%; overflow: hidden; }
+.sobre-hero-img {
+  width: 100%; max-height: 520px;
+  object-fit: cover; object-position: center 60%;
+  display: block;
+}
+
+/* ── QUEM SOMOS ── */
+.quem-somos { background: var(--white); padding: 64px 0; }
+.quem-somos h2 {
+  font-family: var(--serif); font-size: 36px; font-weight: 400;
+  text-align: center; margin-bottom: 0; color: var(--text);
+}
+.quem-somos h2::after {
+  content: ''; display: block;
+  width: 48px; height: 2px;
+  background: var(--taupe); margin: 18px auto 40px;
+}
+.quem-somos-text { max-width: 780px; }
+.quem-somos-text p {
+  font-size: 14px; color: var(--text-muted);
+  line-height: 1.85; margin-bottom: 22px;
+}
+.quem-somos-text p:last-child { margin-bottom: 0; }
+
+/* ── EQUIPE ── */
+.equipe { background: var(--bg); padding: 64px 0; }
+.equipe h2 {
+  font-family: var(--serif); font-size: 36px; font-weight: 400;
+  text-align: center; margin-bottom: 0; color: var(--text);
+}
+.equipe h2::after {
+  content: ''; display: block;
+  width: 48px; height: 2px;
+  background: var(--taupe); margin: 18px auto 48px;
+}
+.equipe-grid {
+  display: flex; justify-content: center; flex-wrap: wrap; gap: 28px;
+}
+.equipe-card {
+  text-align: center; width: 160px;
+}
+.equipe-card img {
+  width: 130px; height: 130px; border-radius: 50%;
+  object-fit: cover; object-position: center top;
+  border: 3px solid var(--taupe-light);
+  margin-bottom: 14px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.equipe-card:hover img { border-color: var(--taupe); transform: scale(1.04); }
+.equipe-card h3 { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.equipe-card p  { font-size: 11px; color: var(--text-muted); line-height: 1.5; }
+
+@media (max-width: 640px) {
+  .equipe-grid { gap: 20px; }
+  .equipe-card { width: 130px; }
+  .equipe-card img { width: 110px; height: 110px; }
+}
+
+/* ── NOSSO LOCAL ── */
+.nosso-local { background: var(--white); padding: 0 0 0; }
+.nosso-local .container h2 {
+  font-family: var(--serif); font-size: 36px; font-weight: 400;
+  text-align: center; margin-bottom: 32px; color: var(--text);
+  padding-top: 8px;
+}
+.local-img-wrapper { width: 100%; overflow: hidden; }
+.local-img-wrapper img {
+  width: 100%; max-height: 480px;
+  object-fit: cover; object-position: center;
+}
+
+/* ── RESPONSIVO SOBRE ── */
+@media (max-width: 640px) {
+  .quem-somos { padding: 48px 0; }
+  .quem-somos h2 { font-size: 28px; }
+  .quem-somos-text p { font-size: 13px; }
+  .nosso-local .container h2 { font-size: 28px; }
+  .sobre-hero-img { max-height: 320px; }
+  .local-img-wrapper img { max-height: 300px; }
+}

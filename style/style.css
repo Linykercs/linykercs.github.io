@@ -1,0 +1,123 @@
+/* ============================================================
+   style.css — CSS GLOBAL (importado em todas as páginas)
+   Navbar, Footer, Chatbot, Reset, Variáveis
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Raleway:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --bg:          #e8e5e0;
+  --bg-light:    #f0ede8;
+  --taupe:       #b5a594;
+  --taupe-dark:  #9a8978;
+  --taupe-light: #cfc0b0;
+  --cream:       #f5f3ef;
+  --text:        #1a1a1a;
+  --text-muted:  #6b6157;
+  --white:       #ffffff;
+  --nav-h:       68px;
+  --serif:       'Cormorant Garamond', serif;
+  --sans:        'Raleway', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--sans); background: var(--bg); color: var(--text); }
+img  { max-width: 100%; display: block; }
+a    { text-decoration: none; color: inherit; }
+.container { max-width: 900px; margin: 0 auto; padding: 0 32px; }
+
+/* ── NAVBAR ── */
+.navbar {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--bg);
+  border-bottom: 1px solid rgba(181,165,148,0.2);
+  height: var(--nav-h);
+}
+.nav-container {
+  max-width: 1100px; margin: 0 auto; padding: 0 32px;
+  height: 100%; display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo img { height: 44px; width: auto; filter: brightness(0); }
+.nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+.nav-links a { font-size: 13px; font-weight: 400; letter-spacing: 0.02em; color: var(--text); transition: color 0.2s; }
+.nav-links a:hover, .nav-links a.active { color: var(--taupe-dark); }
+.nav-icons { display: flex; align-items: center; gap: 14px; }
+.nav-icons img, .nav-icons svg { width: 20px; height: 20px; opacity: 0.75; transition: opacity 0.2s; }
+.nav-icons a:hover img, .nav-icons a:hover svg { opacity: 1; }
+.btn-contato {
+  background: var(--taupe) !important; color: var(--white) !important;
+  padding: 10px 24px; border-radius: 50px;
+  font-size: 13px !important; font-weight: 500 !important;
+  letter-spacing: 0.04em; transition: background 0.2s !important;
+}
+.btn-contato:hover { background: var(--taupe-dark) !important; }
+.nav-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text); border-radius: 2px; transition: all 0.3s; }
+
+/* ── FOOTER ── */
+.footer { background: var(--taupe); padding: 56px 0 0; }
+.footer-container {
+  max-width: 1100px; margin: 0 auto; padding: 0 48px 40px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+}
+.footer-logo { height: 60px; width: auto; margin-bottom: 28px; filter: brightness(0) invert(1); opacity: 0.9; }
+.footer-info { display: flex; flex-direction: column; gap: 16px; }
+.footer-info-item { display: flex; align-items: flex-start; gap: 12px; }
+.footer-info-item svg, .footer-info-item img { flex-shrink: 0; margin-top: 2px; opacity: 0.8; filter: brightness(0) invert(1); }
+.footer-info-item span { font-size: 13px; color: rgba(255,255,255,0.85); line-height: 1.6; }
+.footer-right h3 { font-size: 16px; font-weight: 500; color: var(--white); margin-bottom: 20px; }
+.footer-horarios { display: flex; flex-direction: column; gap: 10px; }
+.horario-linha { display: flex; justify-content: space-between; gap: 20px; }
+.horario-linha span { font-size: 13px; color: rgba(255,255,255,0.8); }
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.2);
+  padding: 20px 48px; text-align: center;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.footer-bottom p { font-size: 11px; color: rgba(255,255,255,0.6); letter-spacing: 0.04em; }
+
+/* ── CHATBOT BTN ── */
+.chatbot-btn {
+  position: fixed; bottom: 28px; right: 28px; z-index: 999;
+  width: 52px; height: 52px; border-radius: 50%;
+  background: var(--taupe); display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2); transition: transform 0.2s;
+}
+.chatbot-btn:hover { transform: scale(1.1); }
+.chatbot-btn img { width: 28px; height: 28px; filter: brightness(0) invert(1); }
+
+/* ── BOTÕES GLOBAIS ── */
+.btn-primary {
+  display: inline-block; background: var(--taupe); color: var(--white);
+  padding: 12px 28px; border-radius: 50px;
+  font-size: 13px; font-weight: 500; letter-spacing: 0.04em; transition: background 0.2s;
+}
+.btn-primary:hover { background: var(--taupe-dark); }
+.btn-outline {
+  display: inline-block; background: transparent; color: var(--text);
+  padding: 12px 28px; border-radius: 50px; border: 1.5px solid var(--taupe);
+  font-size: 13px; font-weight: 500; letter-spacing: 0.04em; transition: all 0.2s;
+}
+.btn-outline:hover { background: var(--taupe); color: var(--white); }
+
+/* ── SCROLL ANIMATIONS ── */
+.fade-up { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+.fade-up.visible { opacity: 1; transform: none; }
+
+/* ── RESPONSIVO GLOBAL ── */
+@media (max-width: 640px) {
+  .nav-links {
+    display: none; flex-direction: column; gap: 20px;
+    position: absolute; top: var(--nav-h); left: 0; right: 0;
+    background: var(--bg); padding: 24px 32px;
+    border-bottom: 1px solid rgba(181,165,148,0.2);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  }
+  .nav-links.open { display: flex; }
+  .nav-toggle { display: flex; }
+  .navbar { position: relative; }
+  .footer-container { grid-template-columns: 1fr; gap: 40px; padding: 0 24px 40px; }
+  .footer-bottom { padding: 20px 24px; }
+  .container { padding: 0 20px; }
+}

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Login – Flávia Franco</title>
+<link rel="stylesheet" href="../style/style.css"/>
+<link rel="stylesheet" href="../style/login.css"/>
+</head>
+<body>
+<!-- Pagina de login do painel admin -->
+<div class="login-page">
+  <div class="blob blob--tl"></div>
+  <div class="blob blob--bl"></div>
+  <div class="blob blob--tr"></div>
+  <div class="login-brand">
+    <div class="login-brand__name">Flávia Franco</div>
+    <div class="login-brand__sub">Saúde Regenerativa</div>
+  </div>
+  <!-- Formulario de login -->
+  <div class="login-card">
+    <h1 class="login-card__title">Acessar conta</h1>
+    <div class="login-field">
+      <label>E-MAIL</label>
+      <input type="email" id="usuario" placeholder="admin@clinica.com"/>
+    </div>
+    <div class="login-field">
+      <label>SENHA</label>
+      <input type="password" id="senha"/>
+    </div>
+    <div class="login-links">
+      <a href="../home.html">← Voltar ao site</a>
+    </div>
+    <button class="login-btn" id="btnEntrar" onclick="fazerLogin()">Entrar</button>
+    <p class="login-erro" id="erroMsg"></p>
+  </div>
+</div>
+<script>
+const API_URL = "https://clinica-production-3c98.up.railway.app/api";
+// Redirecionar para o painel se ja estiver logado
+if (localStorage.getItem("token_admin")) window.location.href = "agendamentos.html";
+
+// Fazer login admin
+async function fazerLogin() {
+  const email = document.getElementById("usuario").value.trim();
+  const senha = document.getElementById("senha").value;
+  const btn   = document.getElementById("btnEntrar");
+  const erro  = document.getElementById("erroMsg");
+  if (!email || !senha) { erro.textContent = "Preencha e-mail e senha."; erro.style.display="block"; return; }
+  btn.disabled = true; btn.textContent = "Entrando..."; erro.style.display="none";
+  try {
+    const res  = await fetch(`${API_URL}/admin/login`, { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({email,senha}) });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.erro || "Erro no login");
+    localStorage.setItem("token_admin", data.token);
+    localStorage.setItem("admin_nome", data.nome);
+    window.location.href = "agendamentos.html";
+  } catch(err) {
+    erro.textContent = err.message; erro.style.display="block";
+    btn.disabled=false; btn.textContent="Entrar";
+  }
+}
+// Enviar login ao pressionar Enter
+document.addEventListener("keydown", e => { if(e.key==="Enter") fazerLogin(); });
+</script>
+</body>
+</html>

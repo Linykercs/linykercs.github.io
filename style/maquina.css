@@ -1,0 +1,59 @@
+/* ============================================================
+   maquina.css — Página Oxigenoterapia Hiperbárica
+   ============================================================ */
+
+/* ── HERO MÁQUINA ── */
+.maquina-hero { background: var(--bg); padding: 60px 0 72px; }
+.maquina-hero-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 60px; align-items: center;
+}
+.maquina-hero-text h1 {
+  font-family: var(--serif); font-size: 40px; font-weight: 300;
+  color: var(--text); line-height: 1.2; margin-bottom: 16px;
+}
+.maquina-divider {
+  width: 60px; height: 2px;
+  background: var(--taupe); margin: 20px 0;
+}
+.maquina-hero-text p {
+  font-size: 14px; color: var(--text-muted);
+  line-height: 1.85; margin-bottom: 18px; text-align: center;
+}
+.maquina-hero-text p:last-child { margin-bottom: 0; }
+.maquina-hero-img img { width: 100%; }
+
+/* ── BENEFÍCIOS ── */
+.beneficios { background: var(--taupe-light); padding: 64px 0; }
+.beneficios-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+}
+.beneficio-card {
+  background: var(--white); border-radius: 8px; padding: 22px;
+  border-left: 3px solid var(--taupe-light);
+  transition: border-left-color 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
+}
+.beneficio-card:hover {
+  border-left-color: var(--taupe-dark);
+  box-shadow: 0 6px 20px rgba(181,165,148,0.2);
+  transform: translateY(-3px);
+}
+.beneficio-card h3 {
+  font-size: 13px; font-weight: 600; color: var(--text);
+  margin-bottom: 12px; line-height: 1.4;
+}
+.beneficio-card p {
+  font-size: 12px; color: var(--text-muted); line-height: 1.75;
+}
+
+/* ── RESPONSIVO MÁQUINA ── */
+@media (max-width: 900px) {
+  .maquina-hero-grid { grid-template-columns: 1fr; gap: 40px; }
+  .beneficios-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .maquina-hero-text h1 { font-size: 30px; }
+  .beneficios-grid { grid-template-columns: 1fr; }
+  .maquina-hero { padding: 40px 0 48px; }
+  .beneficios { padding: 48px 0; }
+}
