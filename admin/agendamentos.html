@@ -54,7 +54,7 @@
           </div>
           <div class="admin-toolbar__group">
             <label>Data</label>
-            <input type="date" id="filterData" onchange="carregarAgendamentos()"/>
+            <input type="date" id="filterData" onchange="filtrarLocal()"/>
           </div>
           <!-- Botao para abrir modal de criar horarios -->
           <button class="admin-btn-new" onclick="openModal()">Novo agendamento</button>
@@ -103,10 +103,14 @@ async function apiFetch(path, options={}) {
 function fmt(d) { return d ? new Date(d).toLocaleDateString("pt-BR") : ""; }
 function esc(str) { const d = document.createElement("div"); d.textContent = str||""; return d.innerHTML; }
 
-// Filtrar agendamentos por nome (local, sem nova requisicao)
+// Filtrar agendamentos por nome e data (local, sem nova requisicao)
 function filtrarLocal() {
-  const f = document.getElementById("filterNome").value.toLowerCase();
-  renderRows(todosAgendamentos.filter(a => a.paciente_nome.toLowerCase().includes(f)));
+  const nome = document.getElementById("filterNome").value.toLowerCase();
+  const data = document.getElementById("filterData").value;
+  let lista = todosAgendamentos;
+  if (nome) lista = lista.filter(a => a.paciente_nome.toLowerCase().includes(nome));
+  if (data) lista = lista.filter(a => ((a.horario_id||{}).data||"").startsWith(data));
+  renderRows(lista);
 }
 
 // Renderizar linhas da tabela de agendamentos
@@ -128,6 +132,7 @@ function renderRows(lista) {
       <div class="admin-row__actions">
         ${status==="pendente"?`<button class="admin-row__btn" onclick="mudarStatus('${esc(a._id)}','confirmado')" title="Confirmar"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></button>`:""}
         ${["pendente","confirmado"].includes(status)?`<button class="admin-row__btn danger" onclick="mudarStatus('${esc(a._id)}','cancelado')" title="Cancelar"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>`:""}
+        <button class="admin-row__btn danger" onclick="deletarAgendamento('${esc(a._id)}')" title="Excluir"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg></button>
       </div>`;
     wrap.appendChild(row);
   });
@@ -149,6 +154,13 @@ async function carregarAgendamentos() {
 // Mudar status do agendamento (confirmar ou cancelar)
 async function mudarStatus(id,status) {
   try { await apiFetch(`/admin/agendamentos/${id}`,{method:"PATCH",body:JSON.stringify({status})}); await carregarAgendamentos(); }
+  catch(err) { alert("Erro: "+err.message); }
+}
+
+// Deletar agendamento permanentemente
+async function deletarAgendamento(id) {
+  if (!confirm("Excluir este agendamento permanentemente?")) return;
+  try { await apiFetch(`/admin/agendamentos/${id}`,{method:"DELETE"}); await carregarAgendamentos(); }
   catch(err) { alert("Erro: "+err.message); }
 }
 
