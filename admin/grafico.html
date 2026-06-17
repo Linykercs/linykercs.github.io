@@ -49,7 +49,7 @@
       </div>
 
       <!-- Grafico de barras de agendamentos por mes -->
-      <div class="admin-card" style="margin-top:20px; padding:28px;">
+      <div class="admin-card" style="margin-top:20px; padding:28px; background:#fff;">
         <h3 style="font-family:var(--serif,serif);font-size:18px;font-weight:400;margin-bottom:24px;color:#1c1c1c">Agendamentos por mês</h3>
         <canvas id="graficoBar" height="120"></canvas>
       </div>
@@ -101,7 +101,7 @@ async function carregarDashboard() {
         labels: meses,
         datasets: [{
           data: contagens,
-          backgroundColor: "#3f3535",
+          backgroundColor: "#ab9680",
           borderRadius: 6, borderSkipped: false,
         }]
       },
