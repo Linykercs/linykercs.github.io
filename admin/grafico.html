@@ -51,12 +51,25 @@
         <div class="dash-card dash-card--blue"><div class="dash-card__num" id="dHoje">—</div><div class="dash-card__label">Agendados Hoje</div></div>
       </div>
 
-      <!-- Grafico de barras de agendamentos por mes -->
-      <div class="admin-card" style="margin-top:20px; padding:28px; background:#fff; display:flex; flex-direction:column;">
-        <h3 style="font-family:var(--serif,serif);font-size:18px;font-weight:400;margin-bottom:24px;color:#1c1c1c;flex-shrink:0">Agendamentos por mês</h3>
-        <div style="flex:1; position:relative; min-height:0;">
-          <canvas id="graficoBar"></canvas>
+      <!-- Layout de duas colunas: grafico + consultas de hoje -->
+      <div style="margin-top:20px; display:flex; gap:20px; flex:1; min-height:0;">
+
+        <!-- Grafico de barras -->
+        <div class="admin-card" style="flex:2; padding:28px; background:#fff; display:flex; flex-direction:column;">
+          <h3 style="font-family:var(--serif,serif);font-size:18px;font-weight:400;margin-bottom:24px;color:#1c1c1c;flex-shrink:0">Agendamentos por mês</h3>
+          <div style="flex:1; position:relative; min-height:0;">
+            <canvas id="graficoBar"></canvas>
+          </div>
         </div>
+
+        <!-- Consultas de hoje -->
+        <div class="admin-card" style="flex:1; padding:24px; background:#fff; display:flex; flex-direction:column; min-width:0;">
+          <h3 style="font-family:var(--serif,serif);font-size:18px;font-weight:400;margin-bottom:16px;color:#1c1c1c;flex-shrink:0">Consultas de Hoje</h3>
+          <div id="consultasHoje" style="flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:10px;">
+            <p style="font-size:13px;color:#9a8571;">Carregando...</p>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -94,8 +107,13 @@ async function carregarDashboard() {
     const counts = {};
     statusKeys.forEach(s => { counts[s] = new Array(12).fill(0); });
 
+    const hoje = new Date(); hoje.setHours(0,0,0,0);
+    const amanha = new Date(hoje); amanha.setDate(hoje.getDate()+1);
+
     try {
       const agendamentos = await apiFetch("/admin/agendamentos");
+
+      // Grafico mensal por status
       agendamentos.forEach(function(a) {
         const h = a.horario_id||{};
         if (h.data) {
@@ -104,6 +122,29 @@ async function carregarDashboard() {
           if (mes >= 0 && mes < 12 && counts[status]) counts[status][mes]++;
         }
       });
+
+      // Consultas de hoje
+      const statusBadge = { pendente:"#e8d98a", confirmado:"#a5c8b0", concluido:"#ab9680", cancelado:"#e8a5a5" };
+      const hojeList = agendamentos.filter(a => {
+        const d = new Date((a.horario_id||{}).data);
+        return d >= hoje && d < amanha;
+      }).sort((a,b) => (a.horario_id?.hora_inicio||"").localeCompare(b.horario_id?.hora_inicio||""));
+
+      const box = document.getElementById("consultasHoje");
+      if (!hojeList.length) {
+        box.innerHTML = '<p style="font-size:13px;color:#9a8571;text-align:center;margin-top:20px;">Nenhuma consulta hoje.</p>';
+      } else {
+        box.innerHTML = hojeList.map(a => {
+          const h = a.horario_id||{};
+          const cor = statusBadge[a.status]||"#e8e0d8";
+          const s = (h.servico_id||{}).nome||"—";
+          return `<div style="background:#faf8f6;border-radius:8px;padding:12px 14px;border-left:4px solid ${cor};">
+            <div style="font-size:13px;font-weight:600;color:#3a3028;">${a.paciente_nome}</div>
+            <div style="font-size:12px;color:#7a6a5e;margin-top:3px;">${h.hora_inicio||""} · ${s}</div>
+            <span style="font-size:10px;font-weight:600;letter-spacing:.05em;background:${cor};padding:2px 8px;border-radius:20px;color:#3a3028;display:inline-block;margin-top:5px;">${(a.status||"").toUpperCase()}</span>
+          </div>`;
+        }).join("");
+      }
     } catch(e) {}
 
     new Chart(document.getElementById("graficoBar"), {
